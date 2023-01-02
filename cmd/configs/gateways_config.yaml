@@ -1,0 +1,30 @@
+# sadad:
+#   merchantID: "000000140332569"
+#   logo: "/logo/psp/sadad.jpg"
+#   terminals:
+#     - id: 0
+#       terminalID: "24088245"
+#       apiKey: "2fhFUs1NfuG31LUMVw7FOnKGNiIVlv25"
+#     - id: 1
+#       terminalID: "24073334"
+#       apiKey: "UZRDhFY6n3DaDxTTiue2SbQkb+qcXKnv"
+
+# sep:
+#   merchantID: "12105653"
+#   logo: "/logo/psp/sep.jpg"
+#   terminals:
+#     - id: 0
+#       terminalID: "12127929"
+
+atipay:
+  logo: "/logo/psp/atipay.jpg"
+  terminals:
+    - id: 0
+      terminalID: "12535819"
+      apiKey: "a1fcbb7e-4a2d-4c24-945c-759466403aaa"
+
+pec:
+  logo: "/logo/psp/pec.jpg"
+  terminals:
+    - id: 0
+      apiKey: "q1Af63x4Nbu7oNFQQjc3"

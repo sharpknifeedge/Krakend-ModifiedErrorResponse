@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package pb;
+option go_package = ".;pb";
+
+message GetAdminUserRequest {
+  string username = 1;
+}
+
+message GetAdminUserResponse {
+  uint64 id = 1;
+  string username = 2;
+  string name = 3;
+  bytes password = 4;
+  string avatar = 5;
+  string mobile = 6;
+  string email = 7;
+  uint32 levelId = 8;
+  bytes google2fa = 9;
+}
+
+service AdminService {
+  rpc GetAdminUserService(GetAdminUserRequest) returns (GetAdminUserResponse) {}
+}

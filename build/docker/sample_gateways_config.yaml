@@ -1,0 +1,10 @@
+- type: "sadad"
+  merchantID: "merchant_id"
+  terminalID: "terminal_id1"
+  apiKey: "api_key"
+  gateID: 0
+
+- type: "sep"
+  merchantID: "merchant_id"
+  terminalID: "terminal_id"
+  gateID: 1

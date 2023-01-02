@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package main;
+
+option go_package = ".;pb";
+
+message GetOrCreateUserRequest {
+    string mobile = 1;
+}
+
+message GetOrCreateUserResponse {
+    uint64 user_id = 1;
+    string name = 2;
+    string family = 3;
+    string national_id = 4;
+    string mobile = 5;
+    string email = 6;
+}
+
+message GetUserByIdRequest {
+    int64 user_id = 1;
+}
+
+message GetUserByIdResponse {
+    int64  user_id = 1;
+    string mobile = 2;
+    string national_id = 3;
+    string email = 4;
+    string name = 5;
+    string family = 6;
+}
+
+service UserService {
+    rpc GetOrCreateUser(GetOrCreateUserRequest) returns (GetOrCreateUserResponse) {}
+    rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse) {}
+}

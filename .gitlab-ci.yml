@@ -1,0 +1,48 @@
+image: golang:latest
+
+before_script:
+  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+  - go env -w GOPRIVATE=gitlab.boomerangapp.ir/
+  - go env -w GOPROXY=https://goproxy.cn,direct
+  
+  - mkdir -p $CI_PROJECT_DIR/internal/version/
+  - echo "package version; const Version=\"$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA\"" > $CI_PROJECT_DIR/internal/version/version.go
+  - go fmt $CI_PROJECT_DIR/internal/version/version.go
+stages:
+  - test
+  - build
+  - deploy
+format:
+  stage: test
+  script:
+    - go fmt $(go list ./... | grep -v /vendor/)
+    - go vet $(go list ./... | grep -v /vendor/)
+    - go test -race $(go list ./... | grep -v /vendor/)
+
+compile:
+  stage: build
+  script:
+    - go env -w CGO_ENABLED=0
+    - cd $CI_PROJECT_DIR/cmd/
+    - go build -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/app
+  artifacts:
+    paths:
+      - app
+
+deploy-development:
+  stage: deploy
+  only:
+    - master
+  script:
+    - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - cd $CI_PROJECT_DIR
+    - ssh -T -o StrictHostKeyChecking=no -p $SSH_PORT $SSH_USER@$SSH_IP mkdir -p $DEPLOY_PATH
+    - scp -P $SSH_PORT -o stricthostkeychecking=no -r ./app $SSH_USER@$SSH_IP:$DEPLOY_PATH/app
+    - ssh -T -o StrictHostKeyChecking=no -p $SSH_PORT $SSH_USER@$SSH_IP sh $COMMAND_PATH

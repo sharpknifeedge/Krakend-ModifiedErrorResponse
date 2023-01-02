@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+  pg:
+    container_name: pg
+    build: ""
+    env_file:
+      - "../../.env"
+    environment:
+      GATEWAY_CONFIG_PATH: ${GATEWAY_CONFIG_PATH}
+      BASE_URL: ${BASE_URL}
+      HTTP_PREFIX: ${HTTP_PREFIX}
+      HTTP_PROXY: ${HTTP_PROXY}
+    ports:
+      - 8080:8080
+    network_mode: host

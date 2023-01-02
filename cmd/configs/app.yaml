@@ -1,0 +1,14 @@
+app_configs:
+  http_port: ":8080"
+  base_url: "http://pg.boomerangapp.ir:8080"
+  http_read_timeout: 2
+  grpc_user_addr: "79.175.172.125:8085"
+  html_success: "./cmd/configs/pages/success.html"
+  html_failed: "./cmd/configs/pages/failed.html"
+
+db_configs:
+  mysql:
+    host: "79.175.172.125:8099"
+    db: "boom"
+    username: "boom_dev"
+    password: "-Q-VndEBlEixXx72"
